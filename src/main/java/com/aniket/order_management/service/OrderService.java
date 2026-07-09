@@ -43,10 +43,16 @@ public class OrderService {
 
 
         // Send Kafka event
-        orderProducer.sendOrderEvent(
-                "New order placed by: " + order.getCustomerName() +
-                        " for product: " + order.getProduct()
-        );
+        try {
+            orderProducer.sendOrderEvent(
+                    "New order placed by: " + order.getCustomerName() +
+                            " for product: " + order.getProduct()
+            );
+        } catch (Exception e){
+            // Ignore Kafka errors - don't fail the order
+            System.out.println("Kafka not available: " + e.getMessage());
+        }
+
 
         return saveOrder;
     }
