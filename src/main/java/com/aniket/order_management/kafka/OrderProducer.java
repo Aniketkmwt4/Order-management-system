@@ -14,6 +14,7 @@ public class OrderProducer {
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
+    //Kafka async producer
     @Async
     public void sendOrderEvent(String message) {
         try {
