@@ -8,13 +8,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrderProducer {
 
-    private static final String TOPIC="order-topic";
+    private static final String TOPIC = "order-topic";
 
     @Autowired
-    private KafkaTemplate<String ,String> kafkaTemplate;
+    private KafkaTemplate<String, String> kafkaTemplate;
 
-    public void sendOrderEvent(String message){
-        System.out.println("Sending Kafka event: "+ message);
-        kafkaTemplate.send(TOPIC,message);
+    @Async
+    public void sendOrderEvent(String message) {
+        try {
+            System.out.println("Sending Kafka event: " + message);
+            kafkaTemplate.send(TOPIC, message);
+        } catch (Exception e) {
+            System.out.println("Kafka not available: " + e.getMessage());
+        }
     }
 }
