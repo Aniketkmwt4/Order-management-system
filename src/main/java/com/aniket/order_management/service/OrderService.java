@@ -1,6 +1,7 @@
 package com.aniket.order_management.service;
 
 
+import com.aniket.order_management.exceptions.OrderNotFoundException;
 import com.aniket.order_management.kafka.OrderProducer;
 import com.aniket.order_management.model.Order;
 import com.aniket.order_management.repository.OrderRepository;
@@ -28,7 +29,7 @@ public class OrderService {
     public Order getOrderById(Long id){
         return orderRepository.findById(id)
                 .orElseThrow(() ->
-                        new RuntimeException("Order not found with id: " + id));
+                        new OrderNotFoundException(id));
     }
 
     // Find order By Coustomer Name
